@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .message-container {
+            margin-bottom: 10px;
+        }
+
+        .user-message {
+            background-color: #d1ecf1;
+            border-radius: 10px;
+            padding: 10px;
+            margin-left: 50px;
+        }
+
+        .api-message {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px;
+            margin-right: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chatbot</h1>
+        <div id="conversation">
+            {% for message in conversation %}
+                <div class="message-container">
+                    {% if message['type'] == 'user' %}
+                        <div class="user-message">
+                            <p>{{ message['content'] }}</p>
+                        </div>
+                    {% else %}
+                        <div class="api-message">
+                            <p>{{ message['content'] }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <form id="message-form" method="POST" action="/">
+            <div class="form-group">
+                <input type="text" class="form-control" name="message" placeholder="Enter your message">
+            </div>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Scroll to the bottom of the conversation
+        function scrollToBottom() {
+            var conversation = document.getElementById('conversation');
+            conversation.scrollTop = conversation.scrollHeight;
+        }
+        scrollToBottom();
+
+        // Submit the form and scroll to the bottom on form submission
+        document.getElementById('message-form').addEventListener('submit', function() {
+            scrollToBottom();
+        });
+    </script>
+</body>
+</html>
