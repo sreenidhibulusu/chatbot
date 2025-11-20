@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8e1f4 0%, #e1f8f5 100%);
+            font-family: 'Quicksand', sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 40px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 32px 24px 24px 24px;
+        }
+        h1 {
+            text-align: center;
+            font-weight: 700;
+            color: #a16ae8;
+            margin-bottom: 24px;
+        }
+        .message-container {
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 16px;
+        }
+        .user-message, .api-message {
+            max-width: 70%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            font-size: 1.08em;
+            box-shadow: 0 2px 8px rgba(161,106,232,0.08);
+            position: relative;
+        }
+        .user-message {
+            background: #ffe0ec;
+            color: #a16ae8;
+            margin-left: auto;
+            margin-right: 12px;
+            border-bottom-right-radius: 4px;
+        }
+        .api-message {
+            background: #e1f8f5;
+            color: #3bb2b8;
+            margin-right: auto;
+            margin-left: 12px;
+            border-bottom-left-radius: 4px;
+        }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(161,106,232,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            margin-bottom: 2px;
+        }
+        .user-avatar {
+            background: #a16ae8;
+            color: #fff;
+        }
+        .api-avatar {
+            background: #3bb2b8;
+            color: #fff;
+        }
+        #message-form {
+            margin-top: 24px;
+        }
+        .form-control {
+            border-radius: 12px;
+            border: 1.5px solid #a16ae8;
+            font-size: 1.08em;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #a16ae8 0%, #3bb2b8 100%);
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            padding: 8px 28px;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #3bb2b8 0%, #a16ae8 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chatbot</h1>
+        <div id="conversation">
+            {% for message in conversation %}
+                <div class="message-container">
+                    {% if message['type'] == 'user' %}
+                        <div class="user-message">
+                            <span class="avatar user-avatar" title="You">😊</span>
+                            <span>{{ message['content'] }}</span>
+                        </div>
+                    {% else %}
+                        <div class="api-message">
+                            <span class="avatar api-avatar" title="Bot">🤖</span>
+                            <span>{{ message['content'] }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <form id="message-form" method="POST" action="/">
+            <div class="form-group">
+                <input type="text" class="form-control" name="message" placeholder="Enter your message">
+            </div>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Scroll to the bottom of the conversation
+        function scrollToBottom() {
+            var conversation = document.getElementById('conversation');
+            conversation.scrollTop = conversation.scrollHeight;
+        }
+        scrollToBottom();
+
+        // Submit the form and scroll to the bottom on form submission
+        document.getElementById('message-form').addEventListener('submit', function() {
+            scrollToBottom();
+        });
+    </script>
+</body>
+</html>
